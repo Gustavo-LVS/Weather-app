@@ -1,0 +1,61 @@
+<div class="weather-container" [style.background-image]="'url(' + getBackgroundImage() + ')'">
+  <div class="overlay">
+    <!-- Search Bar -->
+    <div class="search-wrapper">
+      <form (ngSubmit)="onSubmit()" class="search-form">
+        <input 
+          type="text" 
+          [(ngModel)]="initialCity" 
+          name="city"
+          placeholder="Buscar localização..."
+          class="search-input"
+          autocomplete="off"
+        />
+        <button type="submit" class="search-button">
+          <fa-icon [icon]="searchIcon" class="text-white"></fa-icon>
+        </button>
+      </form>
+    </div>
+
+    <!-- Weather Info -->
+    <div *ngIf="weatherData$ | async as weatherData" class="weather-content">
+      <div class="main-info">
+        <div class="temperature-section">
+          <div class="temp-display">
+            <span class="temp-number">{{weatherData.main.temp | number:'1.0-0'}}</span>
+            <span class="temp-unit">°C</span>
+          </div>
+          <div class="location-info">
+            <h1 class="city-name">{{weatherData.name}}, {{weatherData.sys.country}}</h1>
+            <p class="weather-description">{{weatherData.weather[0].description}}</p>
+          </div>
+        </div>
+
+        <!-- Weather Details -->
+        <div class="weather-details">
+          <div class="detail-item">
+            <fa-icon [icon]="dropletIcon" class="detail-icon"></fa-icon>
+            <div>
+              <p class="detail-label">Umidade</p>
+              <p class="detail-value">{{weatherData.main.humidity}}%</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <fa-icon [icon]="windIcon" class="detail-icon"></fa-icon>
+            <div>
+              <p class="detail-label">Vento</p>
+              <p class="detail-value">{{weatherData.wind.speed}} km/h</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <fa-icon [icon]="tempIcon" class="detail-icon"></fa-icon>
+            <div>
+              <p class="detail-label">Sensação</p>
+              <p class="detail-value">{{weatherData.main.feels_like | number:'1.0-0'}}°C</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
